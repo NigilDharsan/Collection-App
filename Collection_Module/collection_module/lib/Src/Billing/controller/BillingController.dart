@@ -204,7 +204,7 @@ class BillingController extends GetxController implements GetxService {
   Future<void> submitBillingDetails() async {
     isLoading.value = true;
     loaderController.showLoaderAfterBuild(isLoading.value);
-    final loginModel = await AuthRepo.getUserModel();
+    final loginModel = await CollectionAuthRepo.getUserModel();
 
     final body = {
       "invoice": {

@@ -139,7 +139,7 @@ class SchemeJoinController extends GetxController implements GetxService {
     // String? refNo,
     required String startDate,
   }) async {
-    final loginModel = await AuthRepo.getUserModel();
+    final loginModel = await CollectionAuthRepo.getUserModel();
 
     _isLoading = true;
     loaderController.showLoaderAfterBuild(_isLoading);

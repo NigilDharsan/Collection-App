@@ -245,7 +245,7 @@ class CollectionDashboardController extends GetxController
     isLoading.value = true;
     loaderController.showLoaderAfterBuild(isLoading.value);
     try {
-      final loginModel = await AuthRepo.getUserModel();
+      final loginModel = await CollectionAuthRepo.getUserModel();
       final idEmp = loginModel?.employee?.idEmployee;
       final body = {"id_employee": idEmp};
       Response? response =
@@ -274,7 +274,7 @@ class CollectionDashboardController extends GetxController
   Future<void> submitBillingDetails() async {
     isLoading.value = true;
     loaderController.showLoaderAfterBuild(isLoading.value);
-    final loginModel = await AuthRepo.getUserModel();
+    final loginModel = await CollectionAuthRepo.getUserModel();
 
     // Build credit_details array from all credit items
     List<Map<String, dynamic>> creditDetailsList = [];

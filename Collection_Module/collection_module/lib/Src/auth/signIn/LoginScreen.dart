@@ -28,9 +28,9 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       _isChecked = prefs.getBool('rememberMe') ?? false;
       if (_isChecked) {
-        Get.find<AuthController>().signInEmailController.text =
+        Get.find<CollectionAuthController>().signInEmailController.text =
             prefs.getString('username') ?? "";
-        Get.find<AuthController>().signInPasswordController.text =
+        Get.find<CollectionAuthController>().signInPasswordController.text =
             prefs.getString('password') ?? "";
       }
     });
@@ -40,9 +40,9 @@ class _LoginScreenState extends State<LoginScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (_isChecked) {
       await prefs.setString('username',
-          Get.find<AuthController>().signInEmailController.value.text);
+          Get.find<CollectionAuthController>().signInEmailController.value.text);
       await prefs.setString('password',
-          Get.find<AuthController>().signInPasswordController.value.text);
+          Get.find<CollectionAuthController>().signInPasswordController.value.text);
       await prefs.setBool('rememberMe', true);
     } else {
       await prefs.remove('phoneNumber');
@@ -59,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Center(
-          child: GetBuilder<AuthController>(builder: (controller) {
+          child: GetBuilder<CollectionAuthController>(builder: (controller) {
             return SingleChildScrollView(
               child: Form(
                 key: controller.formKey,
@@ -119,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
       String label,
       TextEditingController textController,
       bool isPassword,
-      AuthController controller) {
+      CollectionAuthController controller) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -188,7 +188,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildSignInButton(AuthController controller) {
+  Widget _buildSignInButton(CollectionAuthController controller) {
     return Container(
       width: 235,
       height: 50,

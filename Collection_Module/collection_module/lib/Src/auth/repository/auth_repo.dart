@@ -7,11 +7,11 @@ import '../../../utils/app_constants.dart';
 import '../../../utils/data/provider/client_api.dart';
 import '../model/account_model.dart';
 
-class AuthRepo {
+class CollectionAuthRepo {
   final CollectionApiClient apiClient;
   final SharedPreferences sharedPreferences;
 
-  AuthRepo({required this.apiClient, required this.sharedPreferences});
+  CollectionAuthRepo({required this.apiClient, required this.sharedPreferences});
 
   Future<Response?> getUserProfile() async {
     try {
@@ -139,7 +139,7 @@ class AuthRepo {
   }
 
   refreshToken() async {
-    final loginModel = await AuthRepo.getUserModel();
+    final loginModel = await CollectionAuthRepo.getUserModel();
     final prefs = await SharedPreferences.getInstance();
 
     final headers = {"Content-Type": "application/json"};

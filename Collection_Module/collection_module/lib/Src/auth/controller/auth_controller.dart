@@ -13,10 +13,10 @@ import '../model/account_model.dart';
 import '../repository/auth_repo.dart';
 
 
-class AuthController extends GetxController implements GetxService {
-  final AuthRepo authRepo;
+class CollectionAuthController extends GetxController implements GetxService {
+  final CollectionAuthRepo authRepo;
 
-  AuthController({required this.authRepo});
+  CollectionAuthController({required this.authRepo});
 
   final formKey = GlobalKey<FormState>();
 
@@ -295,7 +295,7 @@ class AuthController extends GetxController implements GetxService {
       String accessToken = accountModel!.token!;
       await authRepo.saveUserToken(accessToken);
       await authRepo.saveRefreshToken(accessToken);
-      await AuthRepo.saveUserModel(accountModel!);
+      await CollectionAuthRepo.saveUserModel(accountModel!);
 
       startRefreshTokenTimer();
 
