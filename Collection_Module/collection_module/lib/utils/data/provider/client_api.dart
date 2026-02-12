@@ -69,7 +69,7 @@ class CollectionApiClient extends GetxService {
           .timeout(Duration(seconds: timeoutInSeconds));
       // printLog("-----getData response: ${response.body}");
       if (response.statusCode == 401 &&
-          Get.find<AuthController>().isLoggedIn()) {}
+          Get.find<CollectionAuthController>().isLoggedIn()) {}
       return response.body == ""
           ? handleResponse(response, uri)
           : handleLanguageResponse(response, uri);
@@ -96,7 +96,7 @@ class CollectionApiClient extends GetxService {
         .timeout(Duration(seconds: timeoutInSeconds));
     try {
       if (response.statusCode == 401 &&
-          Get.find<AuthController>().isLoggedIn()) {}
+          Get.find<CollectionAuthController>().isLoggedIn()) {}
       printLog("RESPONSE BODY ${response.body}");
       return handleResponse(response, uri);
     } catch (e) {
@@ -390,7 +390,7 @@ class CollectionApiClient extends GetxService {
           .timeout(Duration(seconds: timeoutInSeconds));
 
       if (response.statusCode == 401 &&
-          Get.find<AuthController>().isLoggedIn()) {
+          Get.find<CollectionAuthController>().isLoggedIn()) {
         // Handle unauthorized if needed
       }
       printLog("PUT RESPONSE BODY ${response.body}");
@@ -429,7 +429,7 @@ class CollectionApiClient extends GetxService {
       }
 
       if (response.statusCode == 401 &&
-          Get.find<AuthController>().isLoggedIn()) {
+          Get.find<CollectionAuthController>().isLoggedIn()) {
         // Handle unauthorized if needed
       }
       printLog("DELETE RESPONSE BODY ${response.body}");
