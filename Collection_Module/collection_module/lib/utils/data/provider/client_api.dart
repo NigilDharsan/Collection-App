@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../../Src/auth/controller/auth_controller.dart';
 import '../../app_constants.dart';
 import '../../config.dart';
@@ -18,7 +19,7 @@ import '../../core/helper/error_handler.dart';
 import '../../core/helper/help_me.dart';
 import '../../widgets/custom_snackbar.dart';
 
-class ApiClient extends GetxService {
+class CollectionApiClient extends GetxService {
   final String? appBaseUrl;
   final SharedPreferences sharedPreferences;
   static final String noInternetMessage = 'connection_to_api_server_failed'.tr;
@@ -28,7 +29,10 @@ class ApiClient extends GetxService {
   late Map<String, String> getmainHeaders;
   late Map<String, String> mainHeaders;
 
-  ApiClient({required this.appBaseUrl, required this.sharedPreferences}) {
+  CollectionApiClient({
+    required this.appBaseUrl,
+    required this.sharedPreferences,
+  }) {
     token = sharedPreferences.getString(AppConstants.token);
 
     postUpdateHeader(token);
@@ -39,7 +43,7 @@ class ApiClient extends GetxService {
     getmainHeaders = {
       'Accept': '*/*',
       'Content-Type': 'application/json',
-      'Authorization': 'Token $token'
+      'Authorization': 'Token $token',
     };
   }
 
@@ -47,21 +51,21 @@ class ApiClient extends GetxService {
     mainHeaders = {
       'Accept': '*/*',
       'Content-Type': 'application/json',
-      'Authorization': 'Token $token'
+      'Authorization': 'Token $token',
     };
   }
 
-  Future<Response> getData(String uri,
-      {Map<String, dynamic>? query, Map<String, String>? headers}) async {
+  Future<Response> getData(
+    String uri, {
+    Map<String, dynamic>? query,
+    Map<String, String>? headers,
+  }) async {
     try {
       print(Uri.parse(appBaseUrl! + uri));
       print(headers ?? getmainHeaders);
 
       http.Response response = await http
-          .get(
-            Uri.parse(appBaseUrl! + uri),
-            headers: headers ?? getmainHeaders,
-          )
+          .get(Uri.parse(appBaseUrl! + uri), headers: headers ?? getmainHeaders)
           .timeout(Duration(seconds: timeoutInSeconds));
       // printLog("-----getData response: ${response.body}");
       if (response.statusCode == 401 &&
@@ -74,8 +78,11 @@ class ApiClient extends GetxService {
     }
   }
 
-  Future<Response> postData(String uri, dynamic body,
-      {Map<String, String>? headers}) async {
+  Future<Response> postData(
+    String uri,
+    dynamic body, {
+    Map<String, String>? headers,
+  }) async {
     print(Uri.parse(appBaseUrl! + uri));
     print("Header :: ${headers}");
     print("Request ::${jsonEncode(body)}");
@@ -97,8 +104,11 @@ class ApiClient extends GetxService {
     }
   }
 
-  Future<Response> postLoginData(String uri, dynamic body,
-      {Map<String, String>? headers}) async {
+  Future<Response> postLoginData(
+    String uri,
+    dynamic body, {
+    Map<String, String>? headers,
+  }) async {
     print(Uri.parse(Config.baseUrl + uri));
     print(jsonEncode(body));
     print(headers);
@@ -122,51 +132,69 @@ class ApiClient extends GetxService {
     File file,
     String receiverId,
   ) async {
-    http.MultipartRequest request =
-        http.MultipartRequest('POST', Uri.parse(appBaseUrl! + uri!));
+    http.MultipartRequest request = http.MultipartRequest(
+      'POST',
+      Uri.parse(appBaseUrl! + uri!),
+    );
     // request.headers.addAll(_mainHeaders);
     request.fields['receiver_id'] = receiverId;
     var stream = http.ByteStream(file.openRead())..cast();
     var length = await file.length();
-    var multipartFile = http.MultipartFile('file', stream, length,
-        filename: basename(file.path));
+    var multipartFile = http.MultipartFile(
+      'file',
+      stream,
+      length,
+      filename: basename(file.path),
+    );
     request.files.add(multipartFile);
     final data = await request.send();
     http.Response response = await http.Response.fromStream(data);
     return handleResponse(response, uri);
   }
 
-  Future<Response> postMultipartData(String? uri, Map<String, String> body,
-      List<MultipartBody>? multipartBody, File? otherFile,
-      {Map<String, String>? headers}) async {
+  Future<Response> postMultipartData(
+    String? uri,
+    Map<String, String> body,
+    List<MultipartBody>? multipartBody,
+    File? otherFile, {
+    Map<String, String>? headers,
+  }) async {
     print(Uri.parse(appBaseUrl! + uri!));
     print(jsonEncode(body));
     print(headers);
     try {
-      http.MultipartRequest request =
-          http.MultipartRequest('POST', Uri.parse(appBaseUrl! + uri!));
+      http.MultipartRequest request = http.MultipartRequest(
+        'POST',
+        Uri.parse(appBaseUrl! + uri!),
+      );
       // request.headers.addAll(headers ?? _mainHeaders);
       if (otherFile != null) {
         Uint8List list = await otherFile.readAsBytes();
         var part = http.MultipartFile(
-            'submitted_file', otherFile.readAsBytes().asStream(), list.length,
-            filename: basename(otherFile.path));
+          'submitted_file',
+          otherFile.readAsBytes().asStream(),
+          list.length,
+          filename: basename(otherFile.path),
+        );
         request.files.add(part);
       }
       if (multipartBody != null) {
         for (MultipartBody multipart in multipartBody) {
           File file = File(multipart.file.path);
-          request.files.add(http.MultipartFile(
-            multipart.key!,
-            file.readAsBytes().asStream(),
-            file.lengthSync(),
-            filename: file.path.split('/').last,
-          ));
+          request.files.add(
+            http.MultipartFile(
+              multipart.key!,
+              file.readAsBytes().asStream(),
+              file.lengthSync(),
+              filename: file.path.split('/').last,
+            ),
+          );
         }
       }
       request.fields.addAll(body);
-      http.Response response =
-          await http.Response.fromStream(await request.send());
+      http.Response response = await http.Response.fromStream(
+        await request.send(),
+      );
       return handleResponse(response, uri);
     } catch (e) {
       return Response(statusCode: 1, statusText: noInternetMessage);
@@ -186,9 +214,10 @@ class ApiClient extends GetxService {
       body: body ?? response.body,
       bodyString: response.body.toString(),
       request: Request(
-          headers: response.request!.headers,
-          method: response.request!.method,
-          url: response.request!.url),
+        headers: response.request!.headers,
+        method: response.request!.method,
+        url: response.request!.url,
+      ),
       headers: response.headers,
       statusCode: response.statusCode,
       statusText: response.reasonPhrase,
@@ -201,14 +230,16 @@ class ApiClient extends GetxService {
         if (response0.body.toString().startsWith('{response_code:')) {
           ErrorsModel errorResponse = ErrorsModel.fromJson(response0.body);
           response0 = Response(
-              statusCode: response0.statusCode,
-              body: response0.body,
-              statusText: errorResponse.responseCode);
+            statusCode: response0.statusCode,
+            body: response0.body,
+            statusText: errorResponse.responseCode,
+          );
         } else if (response0.body.toString().startsWith('{message')) {
           response0 = Response(
-              statusCode: response0.statusCode,
-              body: response0.body,
-              statusText: response0.body['message']);
+            statusCode: response0.statusCode,
+            body: response0.body,
+            statusText: response0.body['message'],
+          );
         }
       } else if (response0.statusCode != 200 && response0.body == null) {
         response0 = Response(statusCode: 0, statusText: noInternetMessage);
@@ -221,7 +252,8 @@ class ApiClient extends GetxService {
 
     if (foundation.kDebugMode) {
       debugPrint(
-          '====> API Response: [${response0.statusCode}] $uri\n${response0.body}');
+        '====> API Response: [${response0.statusCode}] $uri\n${response0.body}',
+      );
     }
 
     if (response0.statusCode != 200 && response0.statusCode != 201) {
@@ -229,7 +261,8 @@ class ApiClient extends GetxService {
       print(errorMessage);
       if (response0.statusCode == 500) {
         var tokenExpiredHeader = response.headers['token-expired'];
-        bool tokenExpired = tokenExpiredHeader != null &&
+        bool tokenExpired =
+            tokenExpiredHeader != null &&
             tokenExpiredHeader.toLowerCase() == 'true';
         if (tokenExpired) {
           print("Token has expired");
@@ -239,8 +272,10 @@ class ApiClient extends GetxService {
           } else if (errorMessage == 'DISABLED') {
             customSnackBar('Account Disabled', isError: true);
           } else if (errorMessage == 'INVALIDAPP') {
-            customSnackBar('Please use Web Application to login',
-                isError: true);
+            customSnackBar(
+              'Please use Web Application to login',
+              isError: true,
+            );
           } else {
             customSnackBar(errorMessage, isError: true);
           }
@@ -266,9 +301,10 @@ class ApiClient extends GetxService {
       body: jsonData, // ?? response.body,
       bodyString: decodedResponse, // ?? response.body.toString(),
       request: Request(
-          headers: response.request!.headers,
-          method: response.request!.method,
-          url: response.request!.url),
+        headers: response.request!.headers,
+        method: response.request!.method,
+        url: response.request!.url,
+      ),
       headers: response.headers,
       statusCode: response.statusCode,
       statusText: response.reasonPhrase,
@@ -280,14 +316,16 @@ class ApiClient extends GetxService {
         if (response0.body.toString().startsWith('{response_code:')) {
           ErrorsModel errorResponse = ErrorsModel.fromJson(response0.body);
           response0 = Response(
-              statusCode: response0.statusCode,
-              body: response0.body,
-              statusText: errorResponse.responseCode);
+            statusCode: response0.statusCode,
+            body: response0.body,
+            statusText: errorResponse.responseCode,
+          );
         } else if (response0.body.toString().startsWith('{message')) {
           response0 = Response(
-              statusCode: response0.statusCode,
-              body: response0.body,
-              statusText: response0.body['message']);
+            statusCode: response0.statusCode,
+            body: response0.body,
+            statusText: response0.body['message'],
+          );
         }
       } else if (response0.statusCode != 200 && response0.body == null) {
         response0 = Response(statusCode: 0, statusText: noInternetMessage);
@@ -299,14 +337,16 @@ class ApiClient extends GetxService {
     }
     if (foundation.kDebugMode) {
       debugPrint(
-          '====> API Response: [${response0.statusCode}] $uri\n${response0.body}');
+        '====> API Response: [${response0.statusCode}] $uri\n${response0.body}',
+      );
     }
     if (response0.statusCode != 200 && response0.statusCode != 201) {
       String errorMessage = ErrorHandler.handleError(response0.body);
       print(errorMessage);
       if (response0.statusCode == 500) {
         var tokenExpiredHeader = response.headers['token-expired'];
-        bool tokenExpired = tokenExpiredHeader != null &&
+        bool tokenExpired =
+            tokenExpiredHeader != null &&
             tokenExpiredHeader.toLowerCase() == 'true';
         if (tokenExpired) {
           print("Token has expired");
@@ -316,8 +356,10 @@ class ApiClient extends GetxService {
           } else if (errorMessage == 'DISABLED') {
             customSnackBar('Account Disabled', isError: true);
           } else if (errorMessage == 'INVALIDAPP') {
-            customSnackBar('Please use Web Application to login',
-                isError: true);
+            customSnackBar(
+              'Please use Web Application to login',
+              isError: true,
+            );
           } else {
             customSnackBar(errorMessage, isError: true);
           }
@@ -329,8 +371,11 @@ class ApiClient extends GetxService {
     return response0;
   }
 
-  Future<Response> putData(String uri, dynamic body,
-      {Map<String, String>? headers}) async {
+  Future<Response> putData(
+    String uri,
+    dynamic body, {
+    Map<String, String>? headers,
+  }) async {
     print(Uri.parse(appBaseUrl! + uri));
     print("Header :: ${headers}");
     print("Request ::${jsonEncode(body)}");
@@ -355,17 +400,16 @@ class ApiClient extends GetxService {
     }
   }
 
-  Future<Response> deleteData(String uri,
-      {Map<String, String>? headers}) async {
+  Future<Response> deleteData(
+    String uri, {
+    Map<String, String>? headers,
+  }) async {
     print(Uri.parse(appBaseUrl! + uri));
     print("Header :: ${headers}");
 
     try {
       http.Response response = await http
-          .delete(
-            Uri.parse(appBaseUrl! + uri),
-            headers: headers ?? mainHeaders,
-          )
+          .delete(Uri.parse(appBaseUrl! + uri), headers: headers ?? mainHeaders)
           .timeout(Duration(seconds: timeoutInSeconds));
 
       if (response.statusCode == 204) {

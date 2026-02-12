@@ -33,46 +33,86 @@ class InitialBinding extends Bindings {
     //common controller
     Get.lazyPut(() => ThemeController(sharedPreferences: Get.find()));
 
+    Get.lazyPut(
+      () => AuthController(
+        authRepo: AuthRepo(
+          sharedPreferences: Get.find(),
+          apiClient: Get.find(),
+        ),
+      ),
+    );
 
-    Get.lazyPut(() => AuthController(
-        authRepo:
-            AuthRepo(sharedPreferences: Get.find(), apiClient: Get.find())));
-
-    Get.lazyPut(() =>
-        BillingController(billingRepo: BillingRepo(sharedPreferences: Get.find(),apiClient: Get.find())));
-
-
-
-    Get.lazyPut(() => DashboardController(
+    Get.lazyPut(
+      () => BillingController(
         billingRepo: BillingRepo(
-            sharedPreferences: Get.find(), apiClient: Get.find())));
+          sharedPreferences: Get.find(),
+          apiClient: Get.find(),
+        ),
+      ),
+    );
 
+    Get.lazyPut(
+      () => DashboardController(
+        billingRepo: BillingRepo(
+          sharedPreferences: Get.find(),
+          apiClient: Get.find(),
+        ),
+      ),
+    );
 
-
-    Get.lazyPut(() => CollectionDashboardController(
+    Get.lazyPut(
+      () => CollectionDashboardController(
         collectionDashboardRepo: CollectionDashboardRepo(
-            sharedPreferences: Get.find(), apiClient: Get.find())));
+          sharedPreferences: Get.find(),
+          apiClient: Get.find(),
+        ),
+      ),
+    );
 
-    Get.lazyPut(() => SchemeJoinController(
+    Get.lazyPut(
+      () => SchemeJoinController(
         schemeJoinRepo: SchemeJoinRepo(
-            sharedPreferences: Get.find(), apiClient: Get.find())));
+          sharedPreferences: Get.find(),
+          apiClient: Get.find(),
+        ),
+      ),
+    );
 
-    Get.lazyPut(() => CustomerJoinController(
+    Get.lazyPut(
+      () => CustomerJoinController(
         customerJoinRepo: CustomerJoinRepo(
-            sharedPreferences: Get.find(), apiClient: Get.find())));
+          sharedPreferences: Get.find(),
+          apiClient: Get.find(),
+        ),
+      ),
+    );
 
-    Get.lazyPut(() => SchemePaymentController(
+    Get.lazyPut(
+      () => SchemePaymentController(
         schemePaymentRepo: SchemePaymentRepo(
-            sharedPreferences: Get.find(), apiClient: Get.find())));
+          sharedPreferences: Get.find(),
+          apiClient: Get.find(),
+        ),
+      ),
+    );
 
-    Get.lazyPut(() => CollectionreportController(
+    Get.lazyPut(
+      () => CollectionreportController(
         collectionreportRepo: CollectionreportRepo(
-            sharedPreferences: Get.find(), apiClient: Get.find())));
+          sharedPreferences: Get.find(),
+          apiClient: Get.find(),
+        ),
+      ),
+    );
 
-    Get.lazyPut(() => HandoverController(
+    Get.lazyPut(
+      () => HandoverController(
         handoverRepo: HandoverRepo(
-            sharedPreferences: Get.find(), apiClient: Get.find())));
-
+          sharedPreferences: Get.find(),
+          apiClient: Get.find(),
+        ),
+      ),
+    );
   }
 }
 
@@ -83,7 +123,10 @@ Future<void> initControllers() async {
 
   Get.lazyPut(() => ThemeController(sharedPreferences: Get.find()));
 
-
-  Get.lazyPut(() =>
-      ApiClient(appBaseUrl: Config.baseUrl, sharedPreferences: Get.find()));
+  Get.lazyPut(
+    () => CollectionApiClient(
+      appBaseUrl: Config.baseUrl,
+      sharedPreferences: Get.find(),
+    ),
+  );
 }

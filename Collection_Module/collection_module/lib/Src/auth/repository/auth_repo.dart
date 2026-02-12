@@ -7,9 +7,8 @@ import '../../../utils/app_constants.dart';
 import '../../../utils/data/provider/client_api.dart';
 import '../model/account_model.dart';
 
-
 class AuthRepo {
-  final ApiClient apiClient;
+  final CollectionApiClient apiClient;
   final SharedPreferences sharedPreferences;
 
   AuthRepo({required this.apiClient, required this.sharedPreferences});
@@ -26,26 +25,27 @@ class AuthRepo {
   Future<Response?> validateUser(String email) async {
     Map<String, String> headers = {
       'Content-Type': 'application/json; charset=UTF-8',
-      'Accept': '*/*'
+      'Accept': '*/*',
     };
 
-    return await apiClient.getData("${AppConstants.configUrl}$email",
-        headers: headers);
+    return await apiClient.getData(
+      "${AppConstants.configUrl}$email",
+      headers: headers,
+    );
   }
 
-  Future<Response?> login(
-      {required String mobileNumber, required String password}) async {
+  Future<Response?> login({
+    required String mobileNumber,
+    required String password,
+  }) async {
     var body = {
       "username": mobileNumber,
       "password": password,
       "id_company": "1",
-      "deviceID": "111"
+      "deviceID": "111",
     };
 
-    return await apiClient.postLoginData(
-      AppConstants.getEmpLoginUrl,
-      body,
-    );
+    return await apiClient.postLoginData(AppConstants.getEmpLoginUrl, body);
   }
 
   Future<Response?> signupVerification(Map<String, String> body) async {
@@ -53,8 +53,11 @@ class AuthRepo {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     };
-    return await apiClient.postData(AppConstants.customerSignup, body,
-        headers: headers);
+    return await apiClient.postData(
+      AppConstants.customerSignup,
+      body,
+      headers: headers,
+    );
   }
 
   Future<void> saveUserNumberAndEmail(String number, String email) async {
@@ -139,17 +142,12 @@ class AuthRepo {
     final loginModel = await AuthRepo.getUserModel();
     final prefs = await SharedPreferences.getInstance();
 
-    final headers = {
-      "Content-Type": "application/json",
-    };
-    return await apiClient.postData(
-        AppConstants.employeeTokenRefresh,
-        {
-          "id_employee": loginModel?.employee?.idEmployee.toString() ?? "",
-          "username": prefs.getString('username'),
-          "password": prefs.getString('password'),
-        },
-        headers: headers);
+    final headers = {"Content-Type": "application/json"};
+    return await apiClient.postData(AppConstants.employeeTokenRefresh, {
+      "id_employee": loginModel?.employee?.idEmployee.toString() ?? "",
+      "username": prefs.getString('username'),
+      "password": prefs.getString('password'),
+    }, headers: headers);
   }
 }
 

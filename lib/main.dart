@@ -1,3 +1,4 @@
+import 'package:collection_module/Src/Dashboard/Dashboard_Screen/Collection_Dashboard.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: CollectionDashboard(),
     );
   }
 }
