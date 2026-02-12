@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class LoaderController extends GetxController {
+class CollectionLoaderController extends GetxController {
   var isLoading = false.obs;
 
   void showLoader(bool isLoad) {

@@ -106,7 +106,7 @@ class InitialBinding extends Bindings {
 }
 
 Future<void> initControllers() async {
-  Get.put(LoaderController());
+  Get.put(CollectionLoaderController());
   final sharedPreferences = await SharedPreferences.getInstance();
   Get.put<SharedPreferences>(sharedPreferences); // Register it in GetX
 

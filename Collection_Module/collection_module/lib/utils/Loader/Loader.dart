@@ -25,9 +25,9 @@ class Loader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       // loaderController.showLoader();
-      return Get.find<LoaderController>().isLoading.value
+      return Get.find<CollectionLoaderController>().isLoading.value
           ? OverLayAnimation(
-              isLoading: Get.find<LoaderController>().isLoading.value,
+              isLoading: Get.find<CollectionLoaderController>().isLoading.value,
               opacity: overlayOpacity,
               color: Colors.black,
               progressIndicator: Material(
