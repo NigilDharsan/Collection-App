@@ -5,7 +5,7 @@ import '../../../utils/data/provider/client_api.dart';
 
 
 class CollectionreportRepo {
-  final ApiClient apiClient;
+  final CollectionApiClient apiClient;
   final SharedPreferences sharedPreferences;
 
   CollectionreportRepo(

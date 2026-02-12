@@ -5,7 +5,7 @@ import '../../../utils/app_constants.dart';
 import '../../../utils/data/provider/client_api.dart';
 
 class CollectionDashboardRepo {
-  final ApiClient apiClient;
+  final CollectionApiClient apiClient;
   final SharedPreferences sharedPreferences;
 
   CollectionDashboardRepo(

@@ -5,7 +5,7 @@ import '../../../utils/app_constants.dart';
 import '../../../utils/data/provider/client_api.dart';
 
 class SchemePaymentRepo {
-  final ApiClient apiClient;
+  final CollectionApiClient apiClient;
   final SharedPreferences sharedPreferences;
 
   SchemePaymentRepo({required this.apiClient, required this.sharedPreferences});

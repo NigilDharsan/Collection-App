@@ -5,7 +5,7 @@ import '../../../utils/data/provider/client_api.dart';
 
 
 class CustomerJoinRepo {
-  final ApiClient apiClient;
+  final CollectionApiClient apiClient;
   final SharedPreferences sharedPreferences;
 
   CustomerJoinRepo({required this.apiClient, required this.sharedPreferences});

@@ -6,7 +6,7 @@ import '../../../utils/data/provider/client_api.dart';
 
 
 class BillingRepo {
-  final ApiClient apiClient;
+  final CollectionApiClient apiClient;
   final SharedPreferences sharedPreferences;
 
   BillingRepo({required this.apiClient,required this.sharedPreferences});
