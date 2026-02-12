@@ -1,4 +1,4 @@
-import 'package:collection_app/utils/colors.dart';
+import 'colors.dart';
 import 'package:flutter/material.dart';
 
 import 'images.dart';

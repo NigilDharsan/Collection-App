@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:collection_app/utils/Loader/loader_utils.dart';
-import 'package:collection_app/utils/widgets/custom_snackbar.dart';
+import '../../../utils/Loader/loader_utils.dart';
+import '../../../utils/widgets/custom_snackbar.dart';
 
 import '../../Billing/model/ActivebankModel.dart';
 import '../../Billing/model/PayDeviceModel.dart';

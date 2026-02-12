@@ -1,4 +1,4 @@
-import 'package:collection_app/Src/Billing/widget/Amount_Summary.dart';
+import 'widget/Amount_Summary.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
