@@ -5,7 +5,6 @@ import '../../../utils/colors.dart';
 import '../../../utils/widgets/custom_text_field.dart';
 import '../controller/auth_controller.dart';
 
-
 class RegisterScreen extends StatefulWidget {
   final String? mobile;
 
@@ -19,7 +18,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void initState() {
     super.initState();
     if (widget.mobile != null && widget.mobile!.isNotEmpty) {
-      final controller = Get.find<AuthController>();
+      final controller = Get.find<CollectionAuthController>();
       controller.mobileController.text = widget.mobile!;
     }
   }
@@ -27,9 +26,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.white,
-        body: GetBuilder<AuthController>(builder: (controller) {
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
+      body: GetBuilder<CollectionAuthController>(
+        builder: (controller) {
           return SingleChildScrollView(
             padding: EdgeInsets.all(20.0),
             child: Column(
@@ -37,26 +37,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 // SizedBox(height: 50),
                 // Image.asset(Images.logoPng, height: 100),
                 SizedBox(height: 50),
-                Text("Create Customer",
-                    style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey[800])),
+                Text(
+                  "Create Customer",
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey[800],
+                  ),
+                ),
                 SizedBox(height: 30),
                 Form(
                   key: controller.formKeySignUP,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildInputField('Enter Your Name', "First Name *",
-                          controller.nameController, "Please enter your name"),
+                      buildInputField(
+                        'Enter Your Name',
+                        "First Name *",
+                        controller.nameController,
+                        "Please enter your name",
+                      ),
                       SizedBox(height: 20),
                       buildInputField(
-                          'Enter Your Mobile Number',
-                          "Mobile No *",
-                          controller.mobileController,
-                          "Please enter a valid mobile number",
-                          isPhone: true),
+                        'Enter Your Mobile Number',
+                        "Mobile No *",
+                        controller.mobileController,
+                        "Please enter a valid mobile number",
+                        isPhone: true,
+                      ),
                       SizedBox(height: 20),
                       Center(
                         child: Container(
@@ -73,7 +81,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: brandPrimaryColor,
                               padding: EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 50),
+                                vertical: 15,
+                                horizontal: 50,
+                              ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -84,14 +94,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 if (controller.passwordController.text !=
                                     controller.confirmPasswordController.text) {
                                   Get.snackbar(
-                                      "Error", "Passwords do not match",
-                                      snackPosition: SnackPosition.BOTTOM,
-                                      backgroundColor: Colors.red,
-                                      colorText: Colors.white);
+                                    "Error",
+                                    "Passwords do not match",
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    backgroundColor: Colors.red,
+                                    colorText: Colors.white,
+                                  );
                                   return;
                                 }
-                                final result =
-                                    await controller.signupVerification();
+                                final result = await controller
+                                    .signupVerification();
                                 // if (result != null) {
                                 //   Navigator.pop(context);
                                 //
@@ -130,6 +142,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ],
             ),
           );
-        }));
+        },
+      ),
+    );
   }
 }

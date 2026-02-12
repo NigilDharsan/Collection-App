@@ -10,7 +10,6 @@ import '../../../Src/Dashboard/Dashboard_Screen/Pending_Chit_Due_Details.dart';
 import '../../../Src/Dashboard/Dashboard_Screen/Pending_Credits_Details.dart';
 import '../../../Src/Dashboard/Dashboard_Screen/Pending_Credits_Payment.dart';
 import '../../../Src/SchemeJoin/Scheme_Payment.dart';
-import '../../../Src/auth/signIn/LoginScreen.dart';
 
 
 class RouteHelper {
@@ -127,7 +126,6 @@ class RouteHelper {
       '$addLocation?userId=$id&accountId=$accountId';
 
   static List<GetPage> routes = [
-    GetPage(name: onBoardScreen, page: () => getRoute(const LoginScreen())),
     // GetPage(name: dashboardscreen, page: () => const dashboardScreen()),
     GetPage(
         name: pendingCreditPayment, page: () => const PendingCreditsPayment()),

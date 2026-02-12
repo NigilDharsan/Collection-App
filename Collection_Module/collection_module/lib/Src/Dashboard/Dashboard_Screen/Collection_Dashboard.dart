@@ -10,7 +10,6 @@ import '../../SchemeJoin/Scheme_Payment.dart';
 import '../../auth/controller/auth_controller.dart';
 import '../controller/Collection_Dashboard_Controller.dart';
 
-
 class CollectionDashboard extends StatefulWidget {
   const CollectionDashboard({super.key});
 
@@ -20,7 +19,8 @@ class CollectionDashboard extends StatefulWidget {
 
 class _CollectionDashboardState extends State<CollectionDashboard> {
   final collectionController = Get.find<CollectionDashboardController>();
-  final AuthController authController = Get.find<AuthController>();
+  final CollectionAuthController authController =
+      Get.find<CollectionAuthController>();
 
   @override
   void initState() {
@@ -29,16 +29,12 @@ class _CollectionDashboardState extends State<CollectionDashboard> {
 
   // Navigate to area-wise credits list page
   void navigateToCreditsArea(int areaId) {
-    Get.toNamed('/area-wise-credits-details', arguments: {
-      'areaId': areaId,
-    });
+    Get.toNamed('/area-wise-credits-details', arguments: {'areaId': areaId});
   }
 
   // Navigate to area-wise chit dues list page
   void navigateToChitDuesArea(int areaId) {
-    Get.toNamed('/area-wise-chit-dues-details', arguments: {
-      'areaId': areaId,
-    });
+    Get.toNamed('/area-wise-chit-dues-details', arguments: {'areaId': areaId});
   }
 
   @override
@@ -101,11 +97,13 @@ class _CollectionDashboardState extends State<CollectionDashboard> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6),
                 ),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
               ),
               onPressed: () {
-                Get.find<AuthController>().clearSharedData();
+                Get.find<CollectionAuthController>().clearSharedData();
                 Navigator.pop(context); // Close the dialog
                 Get.offAllNamed(RouteHelper.getSignInRoute());
               },
@@ -179,8 +177,11 @@ class _CollectionDashboardState extends State<CollectionDashboard> {
                     value: 'scheme_join',
                     child: Row(
                       children: [
-                        Icon(Icons.add_circle_outline,
-                            color: Colors.black87, size: 20),
+                        Icon(
+                          Icons.add_circle_outline,
+                          color: Colors.black87,
+                          size: 20,
+                        ),
                         SizedBox(width: 12),
                         Text(
                           'Scheme Join',
@@ -328,8 +329,10 @@ class _CollectionDashboardState extends State<CollectionDashboard> {
                 await controller.getCollectionDashboardCount();
               },
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 20,
+                  horizontal: 16,
+                ),
                 child: GridView.count(
                   crossAxisCount: 2,
                   mainAxisSpacing: 20,
@@ -407,7 +410,11 @@ class _CollectionDashboardState extends State<CollectionDashboard> {
   }
 
   Widget buildDashboardCard(
-      String title, String count, IconData icon, Color color) {
+    String title,
+    String count,
+    IconData icon,
+    Color color,
+  ) {
     return GestureDetector(
       onTap: () {
         // Handle card tap if needed
@@ -494,7 +501,9 @@ class _CollectionDashboardState extends State<CollectionDashboard> {
   }
 
   Widget _buildCreditsTable(
-      List areas, CollectionDashboardController controller) {
+    List areas,
+    CollectionDashboardController controller,
+  ) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -566,22 +575,10 @@ class _CollectionDashboardState extends State<CollectionDashboard> {
             ),
             child: Row(
               children: [
-                Expanded(
-                  flex: 4,
-                  child: _tableHeaderCell('Area'),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: _tableHeaderCell('Credits'),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: _tableHeaderCell('Customers'),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: _tableHeaderCell('Amount'),
-                ),
+                Expanded(flex: 4, child: _tableHeaderCell('Area')),
+                Expanded(flex: 2, child: _tableHeaderCell('Credits')),
+                Expanded(flex: 3, child: _tableHeaderCell('Customers')),
+                Expanded(flex: 3, child: _tableHeaderCell('Amount')),
               ],
             ),
           ),
@@ -599,19 +596,24 @@ class _CollectionDashboardState extends State<CollectionDashboard> {
                   navigateToCreditsArea(area.areaId!);
                 } else {
                   // Optionally handle the missing case
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Area ID is missing')));
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text('Area ID is missing')));
                 }
               },
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 14,
+                ),
                 decoration: BoxDecoration(
                   border: isLast
                       ? null
                       : Border(
-                          bottom:
-                              BorderSide(color: Colors.grey[200]!, width: 1),
+                          bottom: BorderSide(
+                            color: Colors.grey[200]!,
+                            width: 1,
+                          ),
                         ),
                   borderRadius: isLast
                       ? const BorderRadius.only(
@@ -716,8 +718,10 @@ class _CollectionDashboardState extends State<CollectionDashboard> {
                   ),
                 ),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(12),
@@ -746,18 +750,12 @@ class _CollectionDashboardState extends State<CollectionDashboard> {
             ),
             child: Row(
               children: [
-                Expanded(
-                  flex: 4,
-                  child: _tableHeaderCell('Area'),
-                ),
+                Expanded(flex: 4, child: _tableHeaderCell('Area')),
                 Expanded(
                   flex: 3,
                   child: _tableHeaderCell('Pending Collections'),
                 ),
-                Expanded(
-                  flex: 3,
-                  child: _tableHeaderCell('Customers'),
-                ),
+                Expanded(flex: 3, child: _tableHeaderCell('Customers')),
               ],
             ),
           ),
@@ -769,18 +767,20 @@ class _CollectionDashboardState extends State<CollectionDashboard> {
             final isLast = index == chitDues.length - 1;
 
             return InkWell(
-              onTap: () => navigateToChitDuesArea(
-                chitDue.areaId ?? 0,
-              ),
+              onTap: () => navigateToChitDuesArea(chitDue.areaId ?? 0),
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 14,
+                ),
                 decoration: BoxDecoration(
                   border: isLast
                       ? null
                       : Border(
-                          bottom:
-                              BorderSide(color: Colors.grey[200]!, width: 1),
+                          bottom: BorderSide(
+                            color: Colors.grey[200]!,
+                            width: 1,
+                          ),
                         ),
                   borderRadius: isLast
                       ? const BorderRadius.only(
@@ -888,18 +888,9 @@ class _CollectionDashboardState extends State<CollectionDashboard> {
             ),
             child: Row(
               children: [
-                Expanded(
-                  flex: 4,
-                  child: _tableHeaderCell('Area'),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: _tableHeaderCell('Credit Collection'),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: _tableHeaderCell('Chit Collection'),
-                ),
+                Expanded(flex: 4, child: _tableHeaderCell('Area')),
+                Expanded(flex: 3, child: _tableHeaderCell('Credit Collection')),
+                Expanded(flex: 3, child: _tableHeaderCell('Chit Collection')),
               ],
             ),
           ),

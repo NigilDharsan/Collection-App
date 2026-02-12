@@ -16,8 +16,6 @@ import '../../../Src/SchemeJoin/controller/Scheme_Join_Controller.dart';
 import '../../../Src/SchemeJoin/controller/Scheme_Payment_Controller.dart';
 import '../../../Src/SchemeJoin/repo/Scheme_Join_Repo.dart';
 import '../../../Src/SchemeJoin/repo/Scheme_Payment_Repo.dart';
-import '../../../Src/auth/controller/auth_controller.dart';
-import '../../../Src/auth/repository/auth_repo.dart';
 import '../../Loader/LoaderController.dart';
 import '../../config.dart';
 import '../../data/provider/client_api.dart';
@@ -32,15 +30,6 @@ class InitialBinding extends Bindings {
   void dependencies() async {
     //common controller
     Get.lazyPut(() => ThemeController(sharedPreferences: Get.find()));
-
-    Get.lazyPut(
-      () => AuthController(
-        authRepo: AuthRepo(
-          sharedPreferences: Get.find(),
-          apiClient: Get.find(),
-        ),
-      ),
-    );
 
     Get.lazyPut(
       () => BillingController(

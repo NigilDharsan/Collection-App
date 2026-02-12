@@ -1,12 +1,11 @@
+import 'package:collection_module/Src/auth/signIn/RegisterScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../utils/colors.dart';
 import '../../utils/widgets/custom_app_bar.dart';
-import '../auth/signIn/RegisterScreen.dart';
 import 'controller/Scheme_Join_Controller.dart';
-
 
 class SchemeJoinCreate extends StatefulWidget {
   const SchemeJoinCreate({super.key});
@@ -63,34 +62,46 @@ class _SchemeJoinCreateState extends State<SchemeJoinCreate> {
 
     // Validation
     if (controller.selectedCustomerId == null) {
-      Get.snackbar('Error', 'Please select a customer',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.red,
-          colorText: Colors.white);
+      Get.snackbar(
+        'Error',
+        'Please select a customer',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
       return;
     }
 
     if (controller.selectedSchemeId == null) {
-      Get.snackbar('Error', 'Please select a scheme',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.red,
-          colorText: Colors.white);
+      Get.snackbar(
+        'Error',
+        'Please select a scheme',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
       return;
     }
 
     if (controller.selectedBranchId == null) {
-      Get.snackbar('Error', 'Please select a branch',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.red,
-          colorText: Colors.white);
+      Get.snackbar(
+        'Error',
+        'Please select a branch',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
       return;
     }
 
     if (_accountNameController.text.trim().isEmpty) {
-      Get.snackbar('Error', 'Please enter account name',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.red,
-          colorText: Colors.white);
+      Get.snackbar(
+        'Error',
+        'Please enter account name',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
       return;
     }
 
@@ -117,10 +128,7 @@ class _SchemeJoinCreateState extends State<SchemeJoinCreate> {
     return Scaffold(
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(50),
-        child: CustomAppBar(
-          title: 'Scheme Joining',
-          isBackButtonExist: true,
-        ),
+        child: CustomAppBar(title: 'Scheme Joining', isBackButtonExist: true),
       ),
       body: GetBuilder<SchemeJoinController>(
         builder: (controller) {
@@ -318,28 +326,31 @@ class _SchemeJoinCreateState extends State<SchemeJoinCreate> {
               Text(
                 "No account for ${_customerSearchController.text} number",
                 style: TextStyle(
-                    fontFamily: 'JosefinSans',
-                    fontSize: 15,
-                    color: brandGreyColor,
-                    fontWeight: FontWeight.w500),
+                  fontFamily: 'JosefinSans',
+                  fontSize: 15,
+                  color: brandGreyColor,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
               const SizedBox(height: 10),
               ElevatedButton.icon(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  Get.to(() =>
-                      RegisterScreen(mobile: _customerSearchController.text));
+                  Get.to(
+                    () =>
+                        RegisterScreen(mobile: _customerSearchController.text),
+                  );
                 },
-                icon: const Icon(
-                  Icons.add,
-                  color: Colors.white,
+                icon: const Icon(Icons.add, color: Colors.white),
+                label: const Text(
+                  "Create New Account",
+                  style: TextStyle(
+                    fontFamily: 'JosefinSans',
+                    fontSize: 15,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                label: const Text("Create New Account",
-                    style: TextStyle(
-                        fontFamily: 'JosefinSans',
-                        fontSize: 15,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold)),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: brandPrimaryColor,
                   foregroundColor: brandPrimaryColor,
